@@ -1,0 +1,63 @@
+CREATE TABLE IF NOT EXISTS users (
+userId INT PRIMARY KEY AUTO_INCREMENT,
+fullName VARCHAR(30) NOT NULL,
+username VARCHAR(20) UNIQUE NOT NULL,
+userPassword VARCHAR(500) NOT NULL,
+userType VARCHAR(20) NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS courses (
+courseId INT PRIMARY KEY AUTO_INCREMENT,
+courseName VARCHAR(20) NOT NULL UNIQUE,
+professorId INT NOT NULL,
+FOREIGN KEY (professorId) REFERENCES users(userId)
+);
+
+CREATE TABLE IF NOT EXISTS notes (
+noteId INT PRIMARY KEY AUTO_INCREMENT,
+title VARCHAR(30) NOT NULL UNIQUE,
+content VARCHAR(100) NOT NULL,
+courseId INT NOT NULL,
+FOREIGN KEY (courseId) REFERENCES courses(courseId)
+);
+
+CREATE TABLE IF NOT EXISTS comments (
+commentId INT PRIMARY KEY AUTO_INCREMENT,
+content VARCHAR(100) NOT NULL,
+noteId INT NOT NULL,
+FOREIGN KEY (noteId) REFERENCES notes(noteId),
+userId INT NOT NULL,
+FOREIGN KEY (userId) REFERENCES users(userId)
+);
+
+CREATE TABLE IF NOT EXISTS user_courses (
+  userCourseId INT PRIMARY KEY AUTO_INCREMENT,
+  userId INT NOT NULL,
+  courseId INT NOT NULL,
+  FOREIGN KEY (userId) REFERENCES users(userId),
+  FOREIGN KEY (courseId) REFERENCES courses(courseId)
+);
+
+CREATE TABLE IF NOT EXISTS materials (
+  materialId INT PRIMARY KEY AUTO_INCREMENT,
+  materialName VARCHAR(255) NOT NULL,
+  filePath VARCHAR(255) NOT NULL,
+  courseId INT NOT NULL,
+  userId INT NOT NULL,
+  FOREIGN KEY (courseId) REFERENCES courses(courseId),
+  FOREIGN KEY (userId) REFERENCES users(userId)
+);
+
+CREATE TABLE IF NOT EXISTS reactions (
+  reactionId INT PRIMARY KEY AUTO_INCREMENT,
+  reactionType ENUM('like', 'dislike') NOT NULL,
+  noteId INT NOT NULL,
+  userId INT NOT NULL,
+  FOREIGN KEY (noteId) REFERENCES notes(noteId),
+  FOREIGN KEY (userId) REFERENCES users(userId)
+);
+
+ALTER TABLE notes
+ADD COLUMN userId INT NOT NULL,
+ADD COLUMN imagePath VARCHAR(255);
