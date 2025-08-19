@@ -68,4 +68,8 @@ export class UserAccountAuthController {
              res.status(500).json({ sucessful:false,message:"Server error"})
         }
     }
+
+    public getRouter(){
+        return this.router
+    }
 }
