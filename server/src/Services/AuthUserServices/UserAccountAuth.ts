@@ -24,7 +24,7 @@ export class UserAccountAuth implements IUserAccountAuth {
         const userAccount = await this.UserAccountRepository.getByUsername(username)
         if(userAccount.id === 0){
             const cryptedPassword : string = await bcrypt.hash(password,10)
-            const RegisteredAccount : UserAccount = await this.UserAccountRepository.createUserAccount(new UserAccount(userAccount.id,userAccount.fullName,userAccount.username,cryptedPassword,userAccount.userType))
+            const RegisteredAccount : UserAccount = await this.UserAccountRepository.createUserAccount(new UserAccount(userAccount.id,fullName,username,cryptedPassword,userType))
 
             if(RegisteredAccount.id !== 0 ){
                 return new UserAccountDTO(RegisteredAccount.id,RegisteredAccount.username,RegisteredAccount.userType)

@@ -8,10 +8,9 @@ export class UserAccountsRepository implements IUserAccountsRepository {
    
     async createUserAccount(userAccount: UserAccount): Promise<UserAccount> {
         try{
-            const query : string = `INSERT INTO users (userId,fullName,username,userPassword,userType) VALUES (?,?,?,?,?)`
+            const query : string = `INSERT INTO users (fullName,username,userPassword,userType) VALUES (?,?,?,?)`
 
             const [result] = await db.execute<ResultSetHeader>(query,[
-                userAccount.id,
                 userAccount.fullName,
                 userAccount.username,
                 userAccount.password,
@@ -30,12 +29,12 @@ export class UserAccountsRepository implements IUserAccountsRepository {
     }
     async getById(id: Number): Promise<UserAccount> {
         try{
-        const query : string = `SELECCT * FROM users WHERE userId=?`
+        const query : string = `SELECT * FROM users WHERE userId=?`
 
         const [rows] = await db.execute<RowDataPacket[]>(query,[id])
         if(rows.length > 0){
             const row = rows[0]
-            return new UserAccount(row.id,row.fullName,row.username,row.password,row.userType)
+            return new UserAccount(row.id,row.fullName,row.username,row.userPassword,row.userType)
         }
         else{
             return new UserAccount()
@@ -47,13 +46,13 @@ export class UserAccountsRepository implements IUserAccountsRepository {
     }
     async getByUsername(username: string): Promise<UserAccount> {
         try{
-            const query =  `SELECCT * FROM users WHERE username=?`
+            const query : string =  `SELECT * FROM users WHERE username=?`
 
             const [rows] = await db.execute<RowDataPacket[]>(query,[username])
 
         if(rows.length > 0){
             const row = rows[0]
-            return new UserAccount(row.id,row.fullName,row.username,row.password,row.userType)
+            return new UserAccount(row.userId,row.fullName,row.username,row.userPassword,row.userType)
         }
         else{
             return new UserAccount()
@@ -65,12 +64,12 @@ export class UserAccountsRepository implements IUserAccountsRepository {
     }
     async getAll(): Promise<UserAccount[]> {
          try{
-        const query : string = `SELECCT * FROM users ORDER BY userId`
+        const query : string = `SELECT * FROM users ORDER BY userId`
 
         const [rows] = await db.execute<RowDataPacket[]>(query)
        
             return rows.map(
-                (row) => new UserAccount(row.id,row.fullName,row.username,row.password,row.userType)
+                (row) => new UserAccount(row.id,row.fullName,row.username,row.userPassword,row.userType)
             )
         
         }
@@ -86,7 +85,7 @@ export class UserAccountsRepository implements IUserAccountsRepository {
             const [result] = await db.execute<ResultSetHeader>(query,[userAccount.fullName,userAccount.username,userAccount.password,userAccount.userType,userAccount.id])
 
             if(result.affectedRows > 0){
-                return userAccount
+                return new UserAccount(userAccount.id,userAccount.fullName,userAccount.username,userAccount.password,userAccount.userType)
             }
             else{
                 return new UserAccount()
