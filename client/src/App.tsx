@@ -1,27 +1,24 @@
-import { useState, useEffect } from 'react'
-import { PročitajVrednostPoKljuču } from './helpers/local_storage'
-import { authApi } from './api_services/auth/AuthAPIService';
-import AuthStranica from './pages/auth/AuthStranica';
-import KontrolnaTabla from './pages/kontrolna_tabla/KontrolnaTabla';
+import { Routes, Route, Navigate } from "react-router-dom";
+import { authApi } from "./api_services/auth/AuthAPIService";
+import PrijavaStranica from "./pages/auth/PrijavaStranica";
+import RegistracijaStranica from "./pages/auth/RegistracijaStranica";
 
 function App() {
-  const [prijavljen, setPrijavljen] = useState<boolean>(false);
+  return (
+    <Routes>
+      <Route path="/login" element={<PrijavaStranica authApi={authApi} />} />
+      <Route path="/register" element={<RegistracijaStranica authApi={authApi} />} />
+    
+  
 
-  useEffect(() => {
-    const token = PročitajVrednostPoKljuču('authToken')
-    if (token && token.includes('/')) {
-      setPrijavljen(true)
-    }
-  }, [])
+       
 
-  return prijavljen ? (
-    <KontrolnaTabla onLogout={() => setPrijavljen(false)} />
-  ) : (
-    <AuthStranica
-      authApi={authApi}
-      onLoginSuccess={() => setPrijavljen(true)}
-    />
-  )
+        {/* Preusmerava na dashboard kao default rutu */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+
+        
+    </Routes>
+  );
 }
 
 export default App;
