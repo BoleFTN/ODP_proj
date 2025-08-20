@@ -1,9 +1,9 @@
 import React, { createContext, useState, useEffect, type ReactNode } from 'react';
 import type { AuthContextType } from '../../types/auth/AuthContext';
-import type { AuthUser } from '../../types/auth/AuthUser';
-import { ObrišiVrednostPoKljuču, PročitajVrednostPoKljuču, SačuvajVrednostPoKljuču } from '../../helpers/local_storage';
 import { jwtDecode } from 'jwt-decode';
+import type { AuthUser } from '../../types/auth/AuthUser';
 import type { JwtTokenClaims } from '../../types/auth/JwtTokenClaims';
+import { SačuvajVrednostPoKljuču, PročitajVrednostPoKljuču, ObrišiVrednostPoKljuču } from '../../helpers/local_storage';
 
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -118,7 +118,5 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 export default AuthContext;
 
 
-function jwtDecode<T>(token: string) {
-    throw new Error('Function not implemented.');
-}
+
 

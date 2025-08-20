@@ -5,20 +5,15 @@ import RegistracijaStranica from "./pages/auth/RegistracijaStranica";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/login" element={<PrijavaStranica authApi={authApi} />} />
-      <Route path="/register" element={<RegistracijaStranica authApi={authApi} />} />
-    
-  
+    <>
+      <h1 style={{ color: "red", textAlign: "center" }}>Test App render</h1>
 
-       
-
-        {/* Preusmerava na dashboard kao default rutu */}
+      <Routes>
+        <Route path="/login" element={<PrijavaStranica authApi={authApi} />} />
+        <Route path="/register" element={<RegistracijaStranica authApi={authApi} />} />
         <Route path="/" element={<Navigate to="/login" replace />} />
-
-        
-    </Routes>
+      </Routes>
+    </>
   );
 }
-
 export default App;
