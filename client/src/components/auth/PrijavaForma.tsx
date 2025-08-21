@@ -4,6 +4,8 @@ import { validacijaPodatakaAuth } from "../../api_services/validators/auth/AuthV
 import type { AuthFormProps } from "../../types/props/auth_form_props/AuthFormProps";
 import { useAuth } from "../../hooks/auth/useAuthHook";
 
+
+
 export function PrijavaForma({ authApi }: AuthFormProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +21,7 @@ export function PrijavaForma({ authApi }: AuthFormProps) {
       return;
     }
 
-    const odgovor = await authApi.prijava(username, password);
+    const odgovor = await authApi.logIn(username, password);
     if (odgovor.success && odgovor.data) {
       login(odgovor.data);
     } else {
