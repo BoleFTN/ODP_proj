@@ -34,7 +34,7 @@ export class UserAccountsRepository implements IUserAccountsRepository {
         const [rows] = await db.execute<RowDataPacket[]>(query,[id])
         if(rows.length > 0){
             const row = rows[0]
-            return new UserAccount(row.id,row.fullName,row.username,row.userPassword,row.userType)
+            return new UserAccount(row.userId,row.fullName,row.username,row.userPassword,row.userType)
         }
         else{
             return new UserAccount()
@@ -69,7 +69,7 @@ export class UserAccountsRepository implements IUserAccountsRepository {
         const [rows] = await db.execute<RowDataPacket[]>(query)
        
             return rows.map(
-                (row) => new UserAccount(row.id,row.fullName,row.username,row.userPassword,row.userType)
+                (row) => new UserAccount(row.userId,row.fullName,row.username,row.userPassword,row.userType)
             )
         
         }
