@@ -11,7 +11,7 @@ type ProtectedRouteProps = {
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
   requiredRole,
-  redirectTo = "/login",
+  redirectTo = "/logIn",
 }) => {
   const { isAuthenticated, user, isLoading, logout } = useAuth();
   const location = useLocation();
