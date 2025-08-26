@@ -11,7 +11,7 @@ export function RegistracijaForma({authApi}:AuthFormProps){
      const [greska, setGreska] = useState("");
      const [fullName,setFullName] = useState("")
      const [userType,setUserType] = useState("")
-     const { register } = useAuth();
+     const { login } = useAuth();
 
      const podnesiFormu = async (e: React.FormEvent) => {
          e.preventDefault();
@@ -24,7 +24,7 @@ export function RegistracijaForma({authApi}:AuthFormProps){
      
          const odgovor = await authApi.register(username, password,fullName,userType);
          if (odgovor.success && odgovor.data) {
-           register(odgovor.data);
+           login(odgovor.data);
          } else {
            setGreska(odgovor.message);
            setUsername("");
