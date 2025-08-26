@@ -8,11 +8,11 @@ export class CourseRepository implements ICourseRepository{
     
     async createCourse(course: Course): Promise<Course> {
         try{
-        const query = "INSERT INTO courses(courseName,professorId) VALUES(?,?)"
-        const [result] = await db.execute<ResultSetHeader>(query,[course.courseName,course.professorId])
+        const query = "INSERT INTO courses(courseName) VALUES(?)"
+        const [result] = await db.execute<ResultSetHeader>(query,[course.courseName])
 
         if(result.insertId){
-            return new Course(result.insertId,course.courseName,course.professorId)
+            return new Course(result.insertId,course.courseName)
         }
         else{
             return new Course()
@@ -29,7 +29,7 @@ export class CourseRepository implements ICourseRepository{
 
         if(rows.length > 0){
             const row = rows[0]
-            return new Course(row.courseId,row.courseName,row.professorId)
+            return new Course(row.courseId,row.courseName)
         }
         else{
             return new Course()
@@ -46,7 +46,7 @@ export class CourseRepository implements ICourseRepository{
 
         if(rows.length > 0){
             const row = rows[0]
-            return new Course(row.courseId,row.courseName,row.professorId)
+            return new Course(row.courseId,row.courseName)
         }
         else{
             return new Course()
@@ -56,23 +56,13 @@ export class CourseRepository implements ICourseRepository{
         return new Course()
     }
     }
-    async getByProfessorId(id: string): Promise<Course[]> {
-        try{
-        const query : string = "SELECT * FROM courses WHERE professorId=?"
-        const [rows] = await db.execute<RowDataPacket[]>(query,[id])
 
-        return rows.map(row => new Course(row.courseId,row.courseName,row.professorId))
-        }
-        catch{
-            return []
-        }
-    }
     async getAll(): Promise<Course[]> {
         try{
             const query : string = "SELECT * FROM courses ORDER BY courseId"
             const [rows] = await db.execute<RowDataPacket[]>(query)
 
-            return rows.map(row => new Course(row.courseId,row.courseName,row.professorId))
+            return rows.map(row => new Course(row.courseId,row.courseName))
         }
         catch{
             return []
@@ -80,11 +70,11 @@ export class CourseRepository implements ICourseRepository{
     }
     async update(course: Course): Promise<Course> {
        try{
-        const query : string = "UPDATE courses SET courseName=?,professorId WHERE courseId=?"
-        const [result] = await db.execute<ResultSetHeader>(query,[course.courseName,course.professorId,course.courseId])
+        const query : string = "UPDATE courses SET courseName=? WHERE courseId=?"
+        const [result] = await db.execute<ResultSetHeader>(query,[course.courseName,course.courseId])
 
         if(result.affectedRows > 0){
-            return new Course(course.courseId,course.courseName,course.professorId)
+            return new Course(course.courseId,course.courseName)
         }
         else{
             return new Course()

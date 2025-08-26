@@ -61,3 +61,7 @@ CREATE TABLE IF NOT EXISTS reactions (
 ALTER TABLE notes
 ADD COLUMN userId INT NOT NULL,
 ADD COLUMN imagePath VARCHAR(255);
+
+//jer name ne treba kljuc za profesora,mozemo koristiti onu pomocnu tabelu i za studente i za profesora
+ALTER TABLE courses DROP FOREIGN KEY courses_ibfk_1;
+ALTER TABLE courses DROP COLUMN professorId;
