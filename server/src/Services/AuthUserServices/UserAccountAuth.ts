@@ -1,4 +1,4 @@
-import { UserAccountDTO } from "../../Domain/DTOs/UserAccountDTO";
+import { UserAccountDTO } from "../../Domain/DTOs/auth/UserAccountDTO";
 import { UserAccount } from "../../Domain/Models/UserAccount";
 import { IUserAccountsRepository } from "../../Domain/repositories/userAccountsRepository/IUserAccountsRepository";
 import { IUserAccountAuth } from "../../Domain/services/AuthServices/IUserAccountAuth";

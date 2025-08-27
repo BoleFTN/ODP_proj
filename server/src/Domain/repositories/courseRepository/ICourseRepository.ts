@@ -3,10 +3,10 @@ import { Course } from "../../Models/Course";
 
 export interface ICourseRepository{
     createCourse(course:Course):Promise<Course>
-    getById(id:Number):Promise<Course>
+    getById(id:number):Promise<Course>
     getByName(name:string):Promise<Course>
     getAll():Promise<Course[]>
     update(course:Course):Promise<Course>
-    delete(id:Number):Promise<boolean>
-    exists(id:Number):Promise<boolean>
+    delete(id:number):Promise<boolean>
+    exists(id:number):Promise<boolean>
 }

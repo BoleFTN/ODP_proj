@@ -1,6 +1,6 @@
-import { CourseDTO } from "../../DTOs/CourseDTO";
+import { CourseDTO } from "../../DTOs/course/CourseDTO";
 
 
 export interface ICourseServices{
-    AddCourse(courseName:string):Promise<CourseDTO>
+    AddCourse(courseName: string, professorId: string):Promise<CourseDTO>
 }

@@ -4,13 +4,13 @@ import { useAuth } from "../../hooks/auth/useAuthHook";
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
-  requiredRole: string;
+  requiredRoles: string[];
   redirectTo?: string;
 };
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
-  requiredRole,
+  requiredRoles,
   redirectTo = "/logIn",
 }) => {
   const { isAuthenticated, user, isLoading, logout } = useAuth();
@@ -32,7 +32,10 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   // Ako je potrebna specifična uloga, proveri je
-  if (requiredRole && user?.userType !== requiredRole) {
+  if (
+    requiredRoles &&
+    (!user?.userType || !requiredRoles.includes(user.userType))
+  ) {
     return (
     <main className="min-h-screen bg-gradient-to-tr from-slate-600/75 to-red-800/70 flex items-center justify-center">
         <div className="bg-white/30 backdrop-blur-lg shadow-lg border border-red-300 rounded-2xl p-10 w-full max-w-lg text-center">
@@ -41,7 +44,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
           </h2>
           <p className="text-gray-800 text-lg mb-6">
             Potrebna je uloga{" "}
-            <span className="font-semibold">"{requiredRole}"</span> za pristup 
+            <span className="font-semibold">"{requiredRoles}"</span> za pristup 
             ovoj stranici.
           </p>
           <button

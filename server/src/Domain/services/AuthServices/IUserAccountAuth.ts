@@ -1,4 +1,4 @@
-import { UserAccountDTO } from "../../DTOs/UserAccountDTO"
+import { UserAccountDTO } from "../../DTOs/auth/UserAccountDTO"
 
 export interface IUserAccountAuth {
     logIn(username : string,password : string) : Promise<UserAccountDTO>

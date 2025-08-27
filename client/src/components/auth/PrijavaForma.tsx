@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { validacijaPodatakaAuth } from "../../api_services/validators/auth/AuthValidator";
 import type { AuthFormProps } from "../../types/props/auth_form_props/AuthFormProps";
 import { useAuth } from "../../hooks/auth/useAuthHook";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -11,6 +12,8 @@ export function PrijavaForma({ authApi }: AuthFormProps) {
   const [password, setPassword] = useState("");
   const [greska, setGreska] = useState("");
   const { login } = useAuth();
+  const navigate = useNavigate();
+
 
   const podnesiFormu = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,8 +26,9 @@ export function PrijavaForma({ authApi }: AuthFormProps) {
 
     const odgovor = await authApi.logIn(username, password);
     if (odgovor.success && odgovor.data) {
-      login(odgovor.data);
-    } else {
+  login(odgovor.data); // ovo već čuva korisnika u AuthContext
+  navigate("/mainPage"); // prebacuje na mainPage
+} else {
       setGreska(odgovor.message);
       setUsername("");
       setPassword("");

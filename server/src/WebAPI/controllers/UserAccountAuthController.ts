@@ -2,6 +2,7 @@ import { Router,Request,Response } from "express";
 import { IUserAccountAuth } from "../../Domain/services/AuthServices/IUserAccountAuth";
 import { UserAccountValidator } from "../validators/UserAccountValidator";
 import { UserAccountLogInValidator } from "../validators/UserAccountLogInValidator";
+import jwt from "jsonwebtoken";
 
 
 export class UserAccountAuthController {
@@ -33,7 +34,14 @@ export class UserAccountAuthController {
             const result = await this.UserAccountAuth.logIn(username,password)
 
             if(result.id !== 0 ){
-                res.status(200).json({ sucessful:true,message:"Log in was sucessful", data: result})
+                 const token = jwt.sign(
+                 { 
+                  id: result.id, 
+                  username: result.username, 
+                  userType: result.userType,
+            }, process.env.JWT_SECRET ?? "", { expiresIn: '6h' });
+
+                res.status(200).json({ sucessful:true,message:"Log in was sucessful", data: token})
             }
             else{
                 res.status(401).json({ sucessful:false,message:"Log in failed"})
@@ -58,7 +66,13 @@ export class UserAccountAuthController {
             const result = await this.UserAccountAuth.register(username,password,userType,fullName)
 
             if(result.id !== 0 ){
-                res.status(200).json({ sucessful:true,message:"Log in was sucessful", data: result})
+                const token = jwt.sign(
+            { 
+              id: result.id, 
+             username: result.username, 
+             userType: result.userType,
+          }, process.env.JWT_SECRET ?? "", { expiresIn: '6h' });
+                res.status(200).json({ sucessful:true,message:"Log in was sucessful", data: token})
             }
             else{
                 res.status(401).json({ sucessful:false,message:"Log in failed"})

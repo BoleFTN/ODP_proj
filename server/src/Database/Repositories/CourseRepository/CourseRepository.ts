@@ -3,118 +3,115 @@ import { Course } from "../../../Domain/Models/Course";
 import { ICourseRepository } from "../../../Domain/repositories/courseRepository/ICourseRepository";
 import db from "../../connection/DbConnectionPool";
 
-
-export class CourseRepository implements ICourseRepository{
+export class CourseRepository implements ICourseRepository {
     
     async createCourse(course: Course): Promise<Course> {
-        try{
-        const query = "INSERT INTO courses(courseName) VALUES(?)"
-        const [result] = await db.execute<ResultSetHeader>(query,[course.courseName])
+        try {
+            const query = "INSERT INTO courses(courseName, professorId) VALUES(?, ?)";
+            const [result] = await db.execute<ResultSetHeader>(query, [course.courseName, course.professorId]);
 
-        if(result.insertId){
-            return new Course(result.insertId,course.courseName)
+            if (result.insertId) {
+                return new Course(result.insertId, course.courseName, course.professorId);
+            } else {
+                return new Course();
+            }
+        } catch (error) {
+            console.error("Error creating course:", error);
+            return new Course();
         }
-        else{
-            return new Course()
-        }
     }
-    catch{
-        return new Course()
-    }
-    }
+
     async getById(id: Number): Promise<Course> {
-        try{
-        const query : string = "SELECT * FROM courses WHERE courseId=?"
-        const [rows] = await db.execute<RowDataPacket[]>(query,[id])
+        try {
+            const query: string = "SELECT * FROM courses WHERE courseId=?";
+            const [rows] = await db.execute<RowDataPacket[]>(query, [id]);
 
-        if(rows.length > 0){
-            const row = rows[0]
-            return new Course(row.courseId,row.courseName)
+            if (rows.length > 0) {
+                const row = rows[0];
+                return new Course(row.courseId, row.courseName, row.professorId);
+            } else {
+                return new Course();
+            }
+        } catch (error) {
+            console.error("Error getting course by ID:", error);
+            return new Course();
         }
-        else{
-            return new Course()
-        }
     }
-    catch{
-        return new Course()
-    }
-    }
+
     async getByName(name: string): Promise<Course> {
-        try{
-        const query : string = "SELECT * FROM courses WHERE courseName=?"
-        const [rows] = await db.execute<RowDataPacket[]>(query,[name])
+        try {
+            const query: string = "SELECT * FROM courses WHERE courseName=?";
+            const [rows] = await db.execute<RowDataPacket[]>(query, [name]);
 
-        if(rows.length > 0){
-            const row = rows[0]
-            return new Course(row.courseId,row.courseName)
+            if (rows.length > 0) {
+                const row = rows[0];
+                return new Course(row.courseId, row.courseName, row.professorId);
+            } else {
+                return new Course();
+            }
+        } catch (error) {
+            console.error("Error getting course by name:", error);
+            return new Course();
         }
-        else{
-            return new Course()
-        }
-    }
-    catch{
-        return new Course()
-    }
     }
 
     async getAll(): Promise<Course[]> {
-        try{
-            const query : string = "SELECT * FROM courses ORDER BY courseId"
-            const [rows] = await db.execute<RowDataPacket[]>(query)
+        try {
+            const query: string = "SELECT * FROM courses ORDER BY courseId";
+            const [rows] = await db.execute<RowDataPacket[]>(query);
 
-            return rows.map(row => new Course(row.courseId,row.courseName))
-        }
-        catch{
-            return []
+            return rows.map(row => new Course(row.courseId, row.courseName, row.professorId));
+        } catch (error) {
+            console.error("Error getting all courses:", error);
+            return [];
         }
     }
+
     async update(course: Course): Promise<Course> {
-       try{
-        const query : string = "UPDATE courses SET courseName=? WHERE courseId=?"
-        const [result] = await db.execute<ResultSetHeader>(query,[course.courseName,course.courseId])
+        try {
+            const query: string = "UPDATE courses SET courseName=?, professorId=? WHERE courseId=?";
+            const [result] = await db.execute<ResultSetHeader>(query, [course.courseName, course.professorId, course.courseId]);
 
-        if(result.affectedRows > 0){
-            return new Course(course.courseId,course.courseName)
-        }
-        else{
-            return new Course()
-        }
-       }
-       catch{
-        return new Course()
-       }
-    }
-    async delete(id: Number): Promise<boolean> {
-        try{
-            const query : string = "DELETE FROM courses WHERE courseId=?"
-            const [result] = await db.execute<ResultSetHeader>(query,[id])
-
-            if(result.affectedRows > 0){
-                return true
+            if (result.affectedRows > 0) {
+                return new Course(course.courseId, course.courseName, course.professorId);
+            } else {
+                return new Course();
             }
-            else{
+        } catch (error) {
+            console.error("Error updating course:", error);
+            return new Course();
+        }
+    }
+
+    async delete(id: Number): Promise<boolean> {
+        try {
+            const query: string = "DELETE FROM courses WHERE courseId=?";
+            const [result] = await db.execute<ResultSetHeader>(query, [id]);
+
+            if (result.affectedRows > 0) {
+                return true;
+            } else {
                 return false;
             }
-        }
-        catch{
-            return false
+        } catch (error) {
+            console.error("Error deleting course:", error);
+            return false;
         }
     }
-    async exists(id: Number): Promise<boolean> {
-    try{
-        const query : string = "SELECT COUNT(*) as count FROM courses WHERE courseId=?"
-        const [rows] = await db.execute<RowDataPacket[]>(query,[id])
 
-        if(rows[0].count > 0){
-            return true
+    async exists(id: Number): Promise<boolean> {
+        try {
+            const query: string = "SELECT COUNT(*) as count FROM courses WHERE courseId=?";
+            const [rows] = await db.execute<RowDataPacket[]>(query, [id]);
+
+            if (rows[0].count > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.error("Error checking if course exists:", error);
+            return false;
         }
-        else{
-            return false
-        }
     }
-    catch{
-        return false;
-    }
-    }
-    
 }
