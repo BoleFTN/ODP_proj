@@ -41,7 +41,7 @@ export class UserAccountAuthController {
                   userType: result.userType,
             }, process.env.JWT_SECRET ?? "", { expiresIn: '6h' });
 
-                res.status(200).json({ sucessful:true,message:"Log in was sucessful", data: token})
+                res.status(200).json(token)
             }
             else{
                 res.status(401).json({ sucessful:false,message:"Log in failed"})
@@ -72,7 +72,7 @@ export class UserAccountAuthController {
              username: result.username, 
              userType: result.userType,
           }, process.env.JWT_SECRET ?? "", { expiresIn: '6h' });
-                res.status(200).json({ sucessful:true,message:"Log in was sucessful", data: token})
+                res.status(200).json( token)
             }
             else{
                 res.status(401).json({ sucessful:false,message:"Log in failed"})

@@ -4,6 +4,7 @@ import { validacijaPodatakaAuth } from "../../api_services/validators/auth/AuthV
 import type { AuthFormProps } from "../../types/props/auth_form_props/AuthFormProps";
 import { useAuth } from "../../hooks/auth/useAuthHook";
 import { useNavigate } from "react-router-dom";
+import { SačuvajVrednostPoKljuču } from "../../helpers/local_storage";
 
 
 
@@ -25,8 +26,10 @@ export function PrijavaForma({ authApi }: AuthFormProps) {
     }
 
     const odgovor = await authApi.logIn(username, password);
+    console.log(odgovor)
     if (odgovor.success && odgovor.data) {
-  login(odgovor.data); // ovo već čuva korisnika u AuthContext
+  login(odgovor.data);
+  localStorage.setItem("authToken",odgovor.data) // ovo već čuva korisnika u AuthContext
   navigate("/mainPage"); // prebacuje na mainPage
 } else {
       setGreska(odgovor.message);
