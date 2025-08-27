@@ -4,9 +4,6 @@ import { validacijaPodatakaAuth } from "../../api_services/validators/auth/AuthV
 import type { AuthFormProps } from "../../types/props/auth_form_props/AuthFormProps";
 import { useAuth } from "../../hooks/auth/useAuthHook";
 import { useNavigate } from "react-router-dom";
-import { SačuvajVrednostPoKljuču } from "../../helpers/local_storage";
-
-
 
 export function PrijavaForma({ authApi }: AuthFormProps) {
   const [username, setUsername] = useState("");
@@ -14,7 +11,6 @@ export function PrijavaForma({ authApi }: AuthFormProps) {
   const [greska, setGreska] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
-
 
   const podnesiFormu = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,13 +22,11 @@ export function PrijavaForma({ authApi }: AuthFormProps) {
     }
 
     const odgovor = await authApi.logIn(username, password);
-    console.log(odgovor)
-    if (odgovor.success && odgovor.data) {
-  login(odgovor.data);
-  localStorage.setItem("authToken",odgovor.data) // ovo već čuva korisnika u AuthContext
-  navigate("/mainPage"); // prebacuje na mainPage
-} else {
-      setGreska(odgovor.message);
+
+    if (odgovor) {
+      login(odgovor);
+      navigate("/mainPage"); // prebacuje na mainPage
+    } else {
       setUsername("");
       setPassword("");
     }
@@ -40,7 +34,9 @@ export function PrijavaForma({ authApi }: AuthFormProps) {
 
   return (
     <div className="bg-white/30 backdrop-blur-lg shadow-md rounded-2xl p-10 w-full max-w-md border border-blue-400">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">Prijava</h1>
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
+        Prijava
+      </h1>
       <form onSubmit={podnesiFormu} className="space-y-4">
         <input
           type="text"
@@ -56,7 +52,11 @@ export function PrijavaForma({ authApi }: AuthFormProps) {
           onChange={(e) => setPassword(e.target.value)}
           className="w-full bg-white/40 px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
-        {greska && <p className="text-md text-center text-red-700/80 font-medium">{greska}</p>}
+        {greska && (
+          <p className="text-md text-center text-red-700/80 font-medium">
+            {greska}
+          </p>
+        )}
         <button
           type="submit"
           className="w-full bg-blue-700/70 hover:bg-blue-700/90 text-white py-2 rounded-xl transition"
