@@ -23,10 +23,9 @@ export function RegistracijaForma({authApi}:AuthFormProps){
          }
      
          const odgovor = await authApi.register(username, password,fullName,userType);
-         if (odgovor.success && odgovor.data) {
-           login(odgovor.data);
+         if (odgovor) {
+           login(odgovor);
          } else {
-           setGreska(odgovor.message);
            setUsername("");
            setPassword("");
            setUserType("");
