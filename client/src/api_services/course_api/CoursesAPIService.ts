@@ -3,7 +3,7 @@ import { CourseDTO } from "../../models/course/CourseDTO";
 import { ICoursesAPIService } from "./ICoursesAPIService";
 
 
-const API_URL: string = import.meta.env.VITE_API_URL + "courses";
+const API_URL: string = import.meta.env.VITE_API_URL + "Courses";
 
 export const coursesApi: ICoursesAPIService = {
   async getSviKursevi(token: string): Promise<CourseDTO[]> {
