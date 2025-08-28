@@ -10,6 +10,11 @@ import { CourseRepository } from "./Database/Repositories/CourseRepository/Cours
 import { CourseServices } from "./Services/CourseServices/CourseServices"
 import { ICourseServices } from "./Domain/services/CourseServices/ICourseServices"
 import { CourseController } from "./WebAPI/controllers/CourseController"
+import { IUserCourse } from "./Domain/repositories/courseUserRepository/IUserCourse"
+import { UserCourseRepository } from "./Database/Repositories/UserCourseRepository/UserCourseRepository"
+import { IUserCourseServices } from "./Domain/services/UserCourseServices/IUserCourseServices"
+import { UserCourseServices } from "./Services/UserCourseServices/UserCourseServices"
+import { UserCourseController } from "./WebAPI/controllers/UserCoursesController"
 
 require('dotenv').config()
 const app = express()
@@ -28,4 +33,10 @@ const courseServices : ICourseServices = new CourseServices(courseRepository)
 const courseController = new CourseController(courseServices)
 
 app.use("/api/v1",courseController.getRouter())
+
+const userCourseRepository : IUserCourse = new UserCourseRepository()
+const userCourseServices : IUserCourseServices = new UserCourseServices(userAccountRepository,userCourseRepository,courseRepository)
+const userCourseController = new UserCourseController(userCourseServices)
+
+app.use("/api/v1",userCourseController.getRouter())
 export default app

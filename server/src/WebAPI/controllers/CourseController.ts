@@ -30,9 +30,9 @@ export class CourseController {
             const result = await this.CourseServices.AddCourse(courseName, professorId);
 
             if (result.courseId !== 0) {
-                res.status(200).json({ sucessful: true, message: "Log in was sucessful", data: result });
+                res.status(200).json({ sucessful: true, message: "Adding course was sucessful", data: result });
             } else {
-                res.status(401).json({ sucessful: false, message: "Log in failed" });
+                res.status(401).json({ sucessful: false, message: "Adding course failed" });
             }
         } catch (error) {
             console.error("Error in AddCourse:", error);
