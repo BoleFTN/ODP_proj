@@ -9,11 +9,11 @@ export class CourseServices implements ICourseServices{
         this.CourseRepository = CourseRepository
     }
 
-    async AddCourse(courseName: string, professorId: string): Promise<CourseDTO> {
+    async AddCourse(courseName: string, professorId: number): Promise<CourseDTO> {
         const course = await this.CourseRepository.getByName(courseName);
 
         if(course.courseId === 0){
-            const courseAdd : Course = await this.CourseRepository.createCourse(new Course(0, courseName, professorId));
+            const courseAdd : Course = await this.CourseRepository.createCourse(new Course(course.courseId, courseName, professorId));
             if(courseAdd.courseId !== 0){
                 return new CourseDTO(courseAdd.courseId, courseAdd.courseName, courseAdd.professorId);
             }
