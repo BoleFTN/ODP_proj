@@ -27,7 +27,7 @@ export class CourseController {
             }
 
             // Prosleđujemo professorId servisu
-            const result = await this.CourseServices.AddCourse(courseName, professorId);
+            const result = await this.CourseServices.AddCourse(courseName,professorId);
 
             if (result.courseId !== 0) {
                 res.status(200).json({ sucessful: true, message: "Adding course was sucessful", data: result });
