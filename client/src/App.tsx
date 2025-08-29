@@ -4,7 +4,7 @@ import PrijavaStranica from "./pages/auth/PrijavaStranica";
 import RegistracijaStranica from "./pages/auth/RegistracijaStranica";
 import { ProtectedRoute } from "./components/protected_route/ProtectedRoute";
 import { MainPage } from "./pages/kursevi/MainPage";
-import { coursesApi } from "./api_services/course_api/CoursesAPIService";
+
 
 function App() {
   return (
@@ -16,9 +16,9 @@ function App() {
         <Route path="/register" element={<RegistracijaStranica authApi={authApi} />} />
         <Route
       path="/mainPage"
-      element={
+element={
     <ProtectedRoute requiredRoles={["student", "professor"]}>
-      <MainPage coursesAPI={coursesApi} />
+      <MainPage />
     </ProtectedRoute>
   }
 />

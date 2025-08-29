@@ -14,7 +14,7 @@ export default function PrijavaStranica({ authApi }: LoginPageProps) {
   const location = useLocation();
 
    useEffect(() => {
-  if (user?.userType) {
+  if (user?.userType && user?.userType) {
     navigate("/mainPage");
   }
 }, [user, navigate]);

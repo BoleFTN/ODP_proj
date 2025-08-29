@@ -1,12 +1,9 @@
-import { ICoursesAPIService } from "../../api_services/course_api/ICoursesAPIService";
 import { TabelaKurseva } from "../../components/course/TabelaKurseva";
 import { useAuth } from "../../hooks/auth/useAuthHook";
 
-interface MainPage {
-  coursesAPI : ICoursesAPIService
-}
 
-export function MainPage({ coursesAPI }: MainPage) {
+
+export function MainPage() {
   const { user } = useAuth();
 
   if (!user) {
@@ -26,12 +23,12 @@ export function MainPage({ coursesAPI }: MainPage) {
       {user.userType === "student" ? (
         <>
           <h2 className="text-xl text-white mb-4">Moji kursevi</h2>
-          <TabelaKurseva coursesAPI={coursesAPI} />
+
         </>
       ) : (
         <>
           <h2 className="text-xl text-white mb-4">Kursevi koje predajem</h2>
-          <TabelaKurseva coursesAPI={coursesAPI} />
+
           {/* Ovde možeš dodati upload materijala */}
           <button className="mt-6 px-4 py-2 bg-orange-600 text-white rounded-lg shadow-md hover:bg-orange-500">
             Dodaj materijal
