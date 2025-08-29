@@ -3,7 +3,7 @@ import { authApi } from "./api_services/auth/AuthAPIService";
 import PrijavaStranica from "./pages/auth/PrijavaStranica";
 import RegistracijaStranica from "./pages/auth/RegistracijaStranica";
 import { ProtectedRoute } from "./components/protected_route/ProtectedRoute";
-import { MainPage } from "./pages/kursevi/MainPage";
+import MainPage from "./pages/kursevi/MainPage";
 
 
 function App() {

@@ -20,22 +20,26 @@ export class UserAccountAuth implements IUserAccountAuth {
             return new UserAccountDTO()
         }
     }
-    async register(username: string, password: string, userType: string, fullName: string): Promise<UserAccountDTO> {
-        const userAccount = await this.UserAccountRepository.getByUsername(username)
-        if(userAccount.id === 0){
-            const cryptedPassword : string = await bcrypt.hash(password,10)
-            const RegisteredAccount : UserAccount = await this.UserAccountRepository.createUserAccount(new UserAccount(userAccount.id,fullName,username,cryptedPassword,userType))
+    async register(username: string, password: string, userType: string, fullName: string): Promise<any> {
+  const userAccount = await this.UserAccountRepository.getByUsername(username);
 
-            if(RegisteredAccount.id !== 0 ){
-                return new UserAccountDTO(RegisteredAccount.id,RegisteredAccount.username,RegisteredAccount.userType)
-            }
-            else{
-                return new UserAccountDTO()
-            }
-        }
-        else{
-            return new UserAccountDTO()
-        }
-    }
+  if (userAccount && userAccount.id !== 0) {
+    // Ako korisnik već postoji, vrati poruku o grešci.
+    return { success: false, message: "Korisničko ime je već zauzeto." };
+  }
+  
+  const cryptedPassword = await bcrypt.hash(password, 10);
+  const RegisteredAccount = await this.UserAccountRepository.createUserAccount(
+    new UserAccount(0, fullName, username, cryptedPassword, userType)
+  );
+
+  if (RegisteredAccount.id !== 0) {
+    // Uspesno kreiran nalog, vrati samo poruku o uspehu.
+    return { success: true, message: "Uspešna registracija. Prijavite se." };
+  }
+  
+  // Nesto je poslo po zlu.
+  return { success: false, message: "Greška pri registraciji." };
+}
 
 }
