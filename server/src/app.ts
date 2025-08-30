@@ -16,27 +16,33 @@ import { IUserCourseServices } from "./Domain/services/UserCourseServices/IUserC
 import { UserCourseServices } from "./Services/UserCourseServices/UserCourseServices"
 import { UserCourseController } from "./WebAPI/controllers/UserCoursesController"
 
-require('dotenv').config()
-const app = express()
+require('dotenv').config();
 
-app.use(cors())
-app.use(express.json())
 
-const userAccountRepository : IUserAccountsRepository = new UserAccountsRepository()
-const userAccountAuth : IUserAccountAuth = new UserAccountAuth(userAccountRepository)
-const userAccountAuthController = new UserAccountAuthController(userAccountAuth)
+const app = express();
 
-app.use("/api/v1",userAccountAuthController.getRouter())
+app.use(cors());
+app.use(express.json());
 
-const courseRepository : ICourseRepository = new CourseRepository()
-const courseServices : ICourseServices = new CourseServices(courseRepository)
-const courseController = new CourseController(courseServices)
+// Kreiranje instanci repozitorijuma
+const userAccountRepository = new UserAccountsRepository();
+const courseRepository = new CourseRepository();
+const userCourseRepository = new UserCourseRepository();
 
-app.use("/api/v1",courseController.getRouter())
+// Kreiranje instanci servisa
+const userAccountAuth = new UserAccountAuth(userAccountRepository);
+const courseServices = new CourseServices(courseRepository);
+const userCourseServices = new UserCourseServices(userAccountRepository, userCourseRepository, courseRepository);
 
-const userCourseRepository : IUserCourse = new UserCourseRepository()
-const userCourseServices : IUserCourseServices = new UserCourseServices(userAccountRepository,userCourseRepository,courseRepository)
-const userCourseController = new UserCourseController(userCourseServices)
+// Kreiranje instanci kontrolera
+const userAccountAuthController = new UserAccountAuthController(userAccountAuth);
+// Prosledi ispravne servise kontrolerima
+const courseController = new CourseController(courseServices, userCourseServices);
+const userCourseController = new UserCourseController(userCourseServices);
 
-app.use("/api/v1",userCourseController.getRouter())
-export default app
+// Korišćenje kontrolera sa specifičnim rutama
+app.use("/api/v1/auth", userAccountAuthController.getRouter());
+app.use("/api/v1/courses", courseController.getRouter());
+app.use("/api/v1/user-courses", userCourseController.getRouter());
+
+export default app;

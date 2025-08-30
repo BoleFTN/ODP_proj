@@ -119,4 +119,20 @@ export class UserCourseRepository implements IUserCourse{
         }
     }
 
+    async isEnrolled(userId: number, courseId: number): Promise<boolean> {
+        try {
+            const query: string = "SELECT COUNT(*) as count FROM user_courses WHERE userId=? AND courseId=?";
+            const [rows] = await db.execute<RowDataPacket[]>(query, [userId, courseId]);
+
+            if (rows[0].count > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.error("Greška pri proveri upisa:", error);
+            return false;
+        }
+    }
+
 }

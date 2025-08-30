@@ -10,4 +10,6 @@ export interface IUserCourse{
     update(userCourse:UserCourse) : Promise<UserCourse>
     delete(id:number) : Promise<boolean>
     exists(id:number) : Promise<boolean>
+    isEnrolled(userId: number, courseId: number): Promise<boolean>;
+
 }

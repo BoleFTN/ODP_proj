@@ -9,6 +9,15 @@ export class CourseServices implements ICourseServices{
         this.CourseRepository = CourseRepository
     }
 
+     async getAll(): Promise<CourseDTO[]> {
+        try {
+            const courses: Course[] = await this.CourseRepository.getAll();
+            return courses.map(course => new CourseDTO(course.courseId, course.courseName, course.professorId));
+        } catch (error) {
+            console.error("Greška u servisu prilikom dohvatanja svih kurseva:", error);
+            return [];
+        }
+    }
     async AddCourse(courseName: string, professorId: number): Promise<CourseDTO> {
         const course = await this.CourseRepository.getByName(courseName);
 

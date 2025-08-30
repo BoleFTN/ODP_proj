@@ -1,5 +1,5 @@
 import { CourseDTO } from "../../DTOs/course/CourseDTO";
-import { UserCourseDTO } from "../../DTOs/userCourse/UserCourseDTO";
+import { UserCourseDTO } from "../../DTOs/usercourse/UserCourseDTO";
 
 
 export interface IUserCourseServices{

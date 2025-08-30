@@ -6,6 +6,7 @@ import { ICoursesAPIService } from "./ICoursesAPIService";
 const API_URL: string = import.meta.env.VITE_API_URL + "courses";
 
 export const coursesApi: ICoursesAPIService = {
+  
   async getSviKursevi(token: string): Promise<CourseDTO[]> {
     try {
       const res = await axios.get<CourseDTO[]>(`${API_URL}`, {
@@ -30,6 +31,23 @@ export const coursesApi: ICoursesAPIService = {
       return res.data;
     } catch (error) {
       console.error("Greška pri kreiranju kursa:", error);
+      return null;
+    }
+  },
+
+  async selectCourse(token: string, studentId: number, courseId: number): Promise<any | null> {
+    try {
+      const res = await axios.post(`${API_URL}/enroll`, {
+        studentId,
+        courseId,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return res.data;
+    } catch (error) {
+      console.error("Greška pri upisivanju na kurs:", error);
       return null;
     }
   }

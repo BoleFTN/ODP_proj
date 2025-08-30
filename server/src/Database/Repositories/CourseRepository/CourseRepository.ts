@@ -2,8 +2,41 @@ import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { Course } from "../../../Domain/Models/Course";
 import { ICourseRepository } from "../../../Domain/repositories/courseRepository/ICourseRepository";
 import db from "../../connection/DbConnectionPool";
+import { UserCourse } from "../../../Domain/Models/UserCourse";
 
 export class CourseRepository implements ICourseRepository {
+   async getEnrollment(studentId: number, courseId: number): Promise<UserCourse> {
+        try {
+            const query: string = "SELECT * FROM user_courses WHERE userId=? AND courseId=?";
+            const [rows] = await db.execute<RowDataPacket[]>(query, [studentId, courseId]);
+
+            if (rows.length > 0) {
+                const row = rows[0];
+                return new UserCourse(row.id, row.userId, row.courseId);
+            } else {
+                return new UserCourse(); // Vrati prazan objekat ako upis ne postoji
+            }
+        } catch (error) {
+            console.error("Greška pri dohvatanju upisa:", error);
+            return new UserCourse();
+        }
+    }
+
+    async createEnrollment(userCourse: UserCourse): Promise<UserCourse> {
+        try {
+            const query: string = "INSERT INTO user_courses(userId, courseId) VALUES(?, ?)";
+            const [result] = await db.execute<ResultSetHeader>(query, [userCourse.userId, userCourse.courseId]);
+
+            if (result.insertId) {
+                return new UserCourse(result.insertId, userCourse.userId, userCourse.courseId);
+            } else {
+                return new UserCourse();
+            }
+        } catch (error) {
+            console.error("Greška pri kreiranju upisa:", error);
+            return new UserCourse();
+        }
+    }
     
     async createCourse(course: Course): Promise<Course> {
         try {
