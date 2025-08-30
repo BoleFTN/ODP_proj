@@ -26,16 +26,16 @@ export function RegistracijaForma({ authApi }: AuthFormProps) {
   try {
     const res = await authApi.register(username, password, fullName, userType);
 
-    if (res.success) {
+    if (res) {
       // REGISTRACIJA USPEŠNA
       // Prikaži poruku o uspehu i preusmeri na login.
-      setGreska(res.message);
+      setGreska("Greska pri registraciji");
       setTimeout(() => {
         navigate("/logIn");
       }, 1500); // 1.5 sekunde pre preusmeravanja
     } else {
       // REGISTRACIJA NIJE USPEŠNA, PRIKAŽI PORUKU SA SERVERA
-      setGreska(res.message);
+      setGreska("Greska pri registraciji");
     }
   } catch (error) {
     console.error("Greška pri slanju forme za registraciju:", error);

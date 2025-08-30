@@ -1,9 +1,8 @@
-import { AuthResponse } from "../../types/auth/AuthResponse";
 
 /**
  * Interfejs za Auth API servis.
  */
 export interface IAuthAPIService {
-  logIn(username: string, password: string): Promise<AuthResponse>;
-  register(username: string, password: string,fullName : string,userType : string): Promise<AuthResponse>;
+  logIn(username: string, password: string): Promise<string>;
+  register(username: string, password: string,fullName : string,userType : string): Promise<string>;
 }
