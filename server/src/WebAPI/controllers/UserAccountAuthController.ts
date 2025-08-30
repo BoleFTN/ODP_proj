@@ -3,6 +3,7 @@ import { IUserAccountAuth } from "../../Domain/services/AuthServices/IUserAccoun
 import { UserAccountValidator } from "../validators/UserAccountValidator";
 import { UserAccountLogInValidator } from "../validators/UserAccountLogInValidator";
 import jwt from "jsonwebtoken";
+import { UserAccountDTO } from "../../Domain/DTOs/auth/UserAccountDTO";
 
 
 export class UserAccountAuthController {
@@ -16,8 +17,8 @@ export class UserAccountAuthController {
     }
 
     private initializeRoute() {
-        this.router.post("/AuthServices/logIn",this.logIn.bind(this))
-        this.router.post("/AuthServices/register",this.register.bind(this))
+        this.router.post("/logIn",this.logIn.bind(this))
+        this.router.post("/register",this.register.bind(this))
     }
 
     private async logIn(req : Request,res : Response): Promise<void>{
@@ -52,36 +53,40 @@ export class UserAccountAuthController {
         }
     }
 
-    private async register(req : Request,res : Response): Promise<void>{
-        try{
-            const{username,password,fullName,userType} = req.body
+    private async register(req: Request, res: Response): Promise<void> {
+    try {
+        const { username, password, fullName, userType } = req.body;
 
-            const valid = UserAccountValidator(username,password,fullName,userType)
+        const valid = UserAccountValidator(username, password, fullName, userType);
 
-            if(valid.sucessful === false){
-                res.status(400).json({ sucessful:false,message:valid.message})
-                return;
-            }
-
-            const result = await this.UserAccountAuth.register(username,password,userType,fullName)
-
-            if(result.id !== 0 ){
-                const token = jwt.sign(
-            { 
-              id: result.id, 
-             username: result.username, 
-             userType: result.userType,
-          }, process.env.JWT_SECRET ?? "", { expiresIn: '6h' });
-                res.status(200).json( token)
-            }
-            else{
-                res.status(401).json({ sucessful:false,message:"Log in failed"})
-            }
+        if (valid.sucessful === false) {
+            res.status(400).json({ sucessful: false, message: valid.message });
+            return;
         }
-        catch{
-             res.status(500).json({ sucessful:false,message:"Server error"})
+
+        // Poziv servisu, koji sada vraća UserAccountDTO
+        const result: UserAccountDTO = await this.UserAccountAuth.register(username, password, userType, fullName);
+
+        if (result.id !== 0) {
+            // Ako je registracija uspešna, kreiraš i vraćaš token
+            const token = jwt.sign(
+                {
+                    id: result.id,
+                    korisnickoIme: result.username, // Izmenjeno
+                    userType: result.userType,
+                },
+                process.env.JWT_SECRET ?? "",
+                { expiresIn: '6h' }
+            );
+            res.status(200).json(token);
+        } else {
+            res.status(401).json({ sucessful: false, message: "Korisničko ime je već zauzeto ili je došlo do greške." });
         }
+    } catch (error) {
+        console.error("Greška pri registraciji:", error);
+        res.status(500).json({ sucessful: false, message: "Serverska greška" });
     }
+}
 
     public getRouter(){
         return this.router
