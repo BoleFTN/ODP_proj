@@ -55,7 +55,9 @@ export const DodajKurs: React.FC<DodajKursProps> = ({ token, user }) => {
   return (
     <>
       <h2 className="text-xl text-white mb-4">Kreiraj novi kurs</h2>
-      <form onSubmit={handleSubmit} className="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
+      <form style={{marginBottom:6, fontFamily:'ariel', backgroundColor: 'rgba(17, 25, 110, 0.18)', padding: '20px',
+       borderRadius: '10px', fontWeight: "bold", color:'rgb(5, 2, 66)'}}
+       onSubmit={handleSubmit} className="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">
             Naziv kursa:

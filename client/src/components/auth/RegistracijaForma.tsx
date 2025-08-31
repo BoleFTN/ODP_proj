@@ -44,7 +44,8 @@ export function RegistracijaForma({ authApi }: AuthFormProps) {
 };
 
   return (
-    <div className="bg-white/30 backdrop-blur-lg shadow-md rounded-2xl p-10 w-full max-w-md border border-blue-400">
+    <div className="bg-white/30 backdrop-blur-lg shadow-md rounded-2xl p-10 w-full max-w-md border border-blue-400" style={{marginBottom:6, fontFamily:'ariel', backgroundColor: 'rgba(17, 25, 110, 0.18)', padding: '20px',
+    borderRadius: '10px', fontWeight: "bold", color:'rgb(5, 2, 66)'}}>
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">Registracija</h1>
       <form onSubmit={podnesiFormu} className="space-y-4">
         {/* ... (polja za unos, ostalo ostaje isto) ... */}

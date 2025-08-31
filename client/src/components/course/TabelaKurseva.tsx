@@ -21,7 +21,9 @@ export function TabelaKurseva({ coursesAPI }: TabelaKurseva) {
   }, [token, coursesAPI]);
 
   return (
-    <div className="bg-white/30 backdrop-blur-lg border border-gray-300 shadow-xl rounded-2xl p-6 w-full max-w-6xl">
+    <div className="bg-white/30 backdrop-blur-lg border border-gray-300 shadow-xl rounded-2xl p-6 w-full max-w-6xl" 
+    style={{marginBottom:6, fontFamily:'ariel', backgroundColor: 'rgba(17, 25, 110, 0.18)', padding: '20px',
+    borderRadius: '10px', fontWeight: "bold", color:'rgb(5, 2, 66)'}}>
       <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center orange-text">
         Spisak kurseva
       </h2>
@@ -40,7 +42,7 @@ export function TabelaKurseva({ coursesAPI }: TabelaKurseva) {
             ))
           ) : (
             <tr>
-              <td colSpan={7} className="text-center text-gray-500 py-4 orange-text">
+              <td colSpan={7} className="text-center text-gray-500 py-4 orange-text" style={{ padding: '10px', border: '1px solid blue' }}>
                Nema dostupnih kurseva.
               </td>
             </tr>
