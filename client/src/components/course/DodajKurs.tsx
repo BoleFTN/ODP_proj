@@ -41,6 +41,8 @@ export const DodajKurs: React.FC<DodajKursProps> = ({ token, user }) => {
         setMessage('Kurs je uspešno kreiran!');
         setCourseName('');
         setProfessorId(user?.id);
+
+      //Ovo zasad ne radi await coursesApi.selectCourse(token,newCourseData.professorId,newCourse.courseId)
       } else {
         setMessage('Kreiranje kursa nije uspelo.');
       }
