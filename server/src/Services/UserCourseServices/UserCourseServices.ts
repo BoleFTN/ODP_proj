@@ -10,9 +10,9 @@ import { IUserCourseServices } from "../../Domain/services/UserCourseServices/IU
 export class UserCourseServices implements IUserCourseServices{
 
     public constructor(private UserAccountRepository:IUserAccountsRepository,private UserCourseRepository:IUserCourse,private CourseRepository : ICourseRepository){
-    //  this.UserAccountRepository=UserAccountRepository
-    // this.UserCourseRepository=UserCourseRepository
-    //this.CourseRepository = CourseRepository
+      this.UserAccountRepository=UserAccountRepository
+      this.UserCourseRepository=UserCourseRepository
+      this.CourseRepository = CourseRepository
     }
 
     async EnrollUser(userId: number, courseId: number): Promise<UserCourseDTO> {

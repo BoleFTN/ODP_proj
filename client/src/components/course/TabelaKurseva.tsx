@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { ICoursesAPIService } from "../../api_services/course_api/ICoursesAPIService";
 import { useAuth } from "../../hooks/auth/useAuthHook";
 import { CourseDTO } from "../../models/course/CourseDTO";
 import { RedUTabeliKurseva } from "./RedUTabeliKurseva";
+import { ICoursesAPIService } from "../../api_services/courses/ICoursesAPIService";
 
 interface TabelaKurseva {
   coursesAPI: ICoursesAPIService;
