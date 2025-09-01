@@ -33,6 +33,7 @@ export class UserCourseServices implements IUserCourseServices{
         // Vrati prazan DTO da signalizira da upis nije uspeo
         return new UserCourseDTO();
     }
+    
 
     // Kreiranje upisa ako sve provere prođu
     const userCourse = await this.UserCourseRepository.createUserCourse(new UserCourse(0, userId, courseId));
@@ -41,11 +42,14 @@ export class UserCourseServices implements IUserCourseServices{
     return new UserCourseDTO(userCourse.userCourseId, userId, courseId);
 }
     async FindCourses(userId: number): Promise<CourseDTO[]> {
+        //console.log(userId)
         const userOvera = await this.UserAccountRepository.exists(userId)
+        //console.log(userOvera)
         if(userOvera === false){
             return []
         }
         const links : UserCourse[] = await this.UserCourseRepository.getByUserId(userId)
+        console.log(links)
         if (links.length === 0) {
         return [];
         }

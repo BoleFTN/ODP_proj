@@ -41,8 +41,8 @@ const courseController = new CourseController(courseServices, userCourseServices
 const userCourseController = new UserCourseController(userCourseServices);
 
 // Korišćenje kontrolera sa specifičnim rutama
-app.use("/api/v1/AuthServices", userAccountAuthController.getRouter()); // OVDE JE IZMENA
+app.use("/api/v1/AuthServices", userAccountAuthController.getRouter()); //  OVDE JE IZMENA
 app.use("/api/v1/courses", courseController.getRouter());
-app.use("/api/v1/user-courses", userCourseController.getRouter());
+app.use("/api/v1", userCourseController.getRouter()); //tu sam brisala
 
 export default app;

@@ -5,28 +5,49 @@ import { ICoursesAPIService } from "./ICoursesAPIService";
 
 //const API_URL: string = import.meta.env.VITE_API_URL + "courses";
 
+//const API_URL = import.meta.env.VITE_API_URL;
+
 const COURSES_API_URL = import.meta.env.VITE_API_URL + "courses";
-const USER_COURSES_API_URL = import.meta.env.VITE_API_URL + "user-courses";
+const USER_COURSES_API_URL = import.meta.env.VITE_API_URL;
 
 export const coursesApi: ICoursesAPIService = {
+
+  async getSviKursevi(token: string): Promise<CourseDTO[]> {
+    const res = await axios.get<CourseDTO[]>(`${COURSES_API_URL}`, { headers: { Authorization: `Bearer ${token}` } });
+    return res.data;
+  },
+
+  async createCourse(token: string, newCourseData: { courseName: string; professorId: number }): Promise<CourseDTO | null> {
+    const res = await axios.post<CourseDTO>(`${COURSES_API_URL}/AddCourse`, newCourseData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.data;
+  },
+
+  async selectCourse(token: string, userId: number, courseId: number): Promise<any | null> {
+    try {
+      const res = await axios.post(`${USER_COURSES_API_URL}enroll`, { userId, courseId }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data;
+    }catch(error){
+      console.log(error)
+      //console.log("upao je u catch")
+    }
   
- async getSviKursevi(token: string): Promise<CourseDTO[]> {
-  const res = await axios.get<CourseDTO[]>(`${COURSES_API_URL}`, { headers: { Authorization: `Bearer ${token}` } });
-  return res.data;
 },
-
-async createCourse(token: string, newCourseData: { courseName: string; professorId: number }): Promise<CourseDTO | null> {
-  const res = await axios.post<CourseDTO>(`${COURSES_API_URL}/AddCourse`, newCourseData, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return res.data;
-},
-
-async selectCourse(token: string, userId: number, courseId: number): Promise<any | null> {
-  const res = await axios.post(`${USER_COURSES_API_URL}/enroll`, { userId, courseId }, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return res.data;
-}
+  async findCoursesForUser(token: string, userId: number): Promise<CourseDTO[]> {
+    try {
+      const res = await axios.get<CourseDTO[]>(`${USER_COURSES_API_URL}${userId}/courses`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return res.data;
+    } catch (error) {
+      console.error("Greška pri dohvatanju kurseva za korisnika:", error);
+      return [];
+    }
+  }
 
 };

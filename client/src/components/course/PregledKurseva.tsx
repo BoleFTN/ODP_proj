@@ -35,6 +35,7 @@ export function PregledKurseva() {
       return;
     }
     try {
+      console.log(token, user.id, courseId)
       await coursesApi.selectCourse(token, user.id, courseId);
       setMessage("Kurs je uspešno odabran!");
     } catch (err) {

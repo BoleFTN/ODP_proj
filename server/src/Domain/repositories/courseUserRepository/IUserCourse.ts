@@ -12,4 +12,5 @@ export interface IUserCourse{
     exists(id:number) : Promise<boolean>
     isEnrolled(userId: number, courseId: number): Promise<boolean>;
 
+
 }
