@@ -15,6 +15,9 @@ import { UserCourseRepository } from "./Database/Repositories/UserCourseReposito
 import { IUserCourseServices } from "./Domain/services/UserCourseServices/IUserCourseServices"
 import { UserCourseServices } from "./Services/UserCourseServices/UserCourseServices"
 import { UserCourseController } from "./WebAPI/controllers/UserCoursesController"
+import { MaterialsRepository } from "./Database/Repositories/MaterialRepository/MaterialRepository"
+import { MaterialServices } from "./Services/MaterialServices/MaterialServices"
+import { MaterialsController } from "./WebAPI/controllers/MaterialsController"
 
 require('dotenv').config();
 
@@ -28,21 +31,21 @@ app.use(express.json());
 const userAccountRepository = new UserAccountsRepository();
 const courseRepository = new CourseRepository();
 const userCourseRepository = new UserCourseRepository();
-
+const materialRepository = new MaterialsRepository()
 // Kreiranje instanci servisa
 const userAccountAuth = new UserAccountAuth(userAccountRepository);
 const courseServices = new CourseServices(courseRepository);
 const userCourseServices = new UserCourseServices(userAccountRepository, userCourseRepository, courseRepository);
-
+const materialServices = new MaterialServices(materialRepository,userAccountRepository)
 // Kreiranje instanci kontrolera
 const userAccountAuthController = new UserAccountAuthController(userAccountAuth);
 // Prosledi ispravne servise kontrolerima
 const courseController = new CourseController(courseServices, userCourseServices);
 const userCourseController = new UserCourseController(userCourseServices);
-
+const materialController = new MaterialsController(materialServices)
 // Korišćenje kontrolera sa specifičnim rutama
 app.use("/api/v1/AuthServices", userAccountAuthController.getRouter()); //  OVDE JE IZMENA
 app.use("/api/v1/courses", courseController.getRouter());
 app.use("/api/v1", userCourseController.getRouter()); //tu sam brisala
-
+app.use("/api/v1/materials",materialController.getRouter())
 export default app;
