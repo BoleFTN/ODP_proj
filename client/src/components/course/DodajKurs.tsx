@@ -59,7 +59,7 @@ export const DodajKurs: React.FC<DodajKursProps> = ({ token, user }) => {
        borderRadius: '10px', fontWeight: "bold", color:'rgb(5, 2, 66)'}}
        onSubmit={handleSubmit} className="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
         <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2">
+          <label className="block font-bold mb-2">
             Naziv kursa:
           </label>
           <input
@@ -70,7 +70,7 @@ export const DodajKurs: React.FC<DodajKursProps> = ({ token, user }) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2">
+          <label className="block font-bold mb-2">
             ID profesora:
           </label>
           <input
