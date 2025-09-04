@@ -30,7 +30,7 @@ export class MaterialsController{
         const result = await this.MaterialServices.createMaterial(title,filepath,userId,courseId,description)
 
         if(result.materialId !== 0){
-             res.status(200).json({ sucessful:true})
+             res.status(200).json(result)
         }
         else{
              res.status(401).json({ sucessful:false})
@@ -49,7 +49,7 @@ export class MaterialsController{
             const result = await this.MaterialServices.editMaterial(title, filepath, userId, courseId,description,id)
 
             if(result.materialId !== 0){
-             res.status(200).json({ sucessful:true,message:validation.message})
+             res.status(200).json(result)
         }
         else{
              res.status(401).json({ sucessful:false,message:validation.message})
@@ -64,7 +64,7 @@ export class MaterialsController{
         try{
             const {courseId}= req.body
             const result = await this.MaterialServices.findMaterials(courseId)
-            res.status(200).json({ sucessful:true, message: "Server je obradio zahtev"})
+            res.status(200).json(result)
         }
         catch{
             res.status(500).json({ sucessful: false, message: "Serverska greška" });

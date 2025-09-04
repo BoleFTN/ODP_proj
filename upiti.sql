@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS courses (
 courseId INT PRIMARY KEY AUTO_INCREMENT,
 courseName VARCHAR(20) NOT NULL UNIQUE,
 professorId INT NOT NULL,
+description VARCHAR(255),
 FOREIGN KEY (professorId) REFERENCES users(userId)
 );
 
