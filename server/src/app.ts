@@ -18,6 +18,9 @@ import { UserCourseController } from "./WebAPI/controllers/UserCoursesController
 import { MaterialsRepository } from "./Database/Repositories/MaterialRepository/MaterialRepository"
 import { MaterialServices } from "./Services/MaterialServices/MaterialServices"
 import { MaterialsController } from "./WebAPI/controllers/MaterialsController"
+import { CommentRepository } from "./Database/Repositories/CommentRepository/CommentRepository"
+import { CommentServices } from "./Services/CommentServices/CommentServices"
+import { CommentController } from "./WebAPI/controllers/CommentController"
 
 require('dotenv').config();
 
@@ -31,21 +34,24 @@ app.use(express.json());
 const userAccountRepository = new UserAccountsRepository();
 const courseRepository = new CourseRepository();
 const userCourseRepository = new UserCourseRepository();
-const materialRepository = new MaterialsRepository()
+const materialRepository = new MaterialsRepository();
+const commentRepository = new CommentRepository();
 // Kreiranje instanci servisa
 const userAccountAuth = new UserAccountAuth(userAccountRepository);
 const courseServices = new CourseServices(courseRepository);
 const userCourseServices = new UserCourseServices(userAccountRepository, userCourseRepository, courseRepository);
 const materialServices = new MaterialServices(materialRepository,userAccountRepository)
+const commentServices = new CommentServices(commentRepository)
 // Kreiranje instanci kontrolera
 const userAccountAuthController = new UserAccountAuthController(userAccountAuth);
-// Prosledi ispravne servise kontrolerima
 const courseController = new CourseController(courseServices, userCourseServices);
 const userCourseController = new UserCourseController(userCourseServices);
-const materialController = new MaterialsController(materialServices)
+const materialController = new MaterialsController(materialServices);
+const commentController = new CommentController(commentServices);
 // Korišćenje kontrolera sa specifičnim rutama
 app.use("/api/v1/AuthServices", userAccountAuthController.getRouter()); //  OVDE JE IZMENA
 app.use("/api/v1/courses", courseController.getRouter());
 app.use("/api/v1", userCourseController.getRouter()); //tu sam brisala
-app.use("/api/v1/materials",materialController.getRouter())
+app.use("/api/v1/materials",materialController.getRouter());
+app.use("/api/v1/comments",commentController.getRouter());
 export default app;
