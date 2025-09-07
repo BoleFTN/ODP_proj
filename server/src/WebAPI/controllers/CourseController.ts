@@ -30,6 +30,8 @@ export class CourseController {
 
         // GET ruta za dohvatanje kurseva na koje je korisnik upisan
         this.router.get("/user/:userId/courses", this.findCoursesForUser.bind(this));
+
+        this.router.post("/getForProfessor",this.getForProfessor.bind(this))
     }
 
     private async AddCourse(req: Request, res: Response): Promise<void> {
@@ -92,6 +94,18 @@ export class CourseController {
         }
     }
 
+
+    private async getForProfessor(req: Request, res: Response): Promise<void>{
+        try{
+            const { professorId } = req.body;
+            const kursevi = await this.CourseServices.getForProfessor(professorId)
+
+            res.status(200).json(kursevi);
+        }
+        catch{
+            res.status(500).json({ sucessful: false, message: "Serverska greška." });
+        }
+    }
     public getRouter() {
         return this.router;
     }

@@ -34,4 +34,15 @@ export class CourseServices implements ICourseServices{
             return new CourseDTO();
         }
     }
+
+    async getForProfessor(id:number):Promise<CourseDTO[]>{
+        try{
+        const courses : Course[] = await this.CourseRepository.getByProfessorId(id)
+
+        return courses.map(course => new CourseDTO(course.courseId, course.courseName, course.professorId));
+        }
+        catch{
+            return []
+        }
+    }
 }

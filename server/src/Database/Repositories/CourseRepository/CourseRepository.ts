@@ -147,4 +147,16 @@ export class CourseRepository implements ICourseRepository {
             return false;
         }
     }
+
+    async getByProfessorId(id:number):Promise<Course[]>{
+        try{
+            const query: string = "SELECT * FROM courses WHERE professorId=?";
+            const [rows] = await db.execute<RowDataPacket[]>(query,[id]);
+
+            return rows.map(row => new Course(row.courseId, row.courseName, row.professorId));
+        }
+        catch{
+            return []
+        }
+    }
 }

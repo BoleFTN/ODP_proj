@@ -10,6 +10,7 @@ export interface ICourseRepository{
     update(course:Course):Promise<Course>
     delete(id:number):Promise<boolean>
     exists(id:number):Promise<boolean>
-     getEnrollment(studentId: number, courseId: number): Promise<UserCourse>;
+    getEnrollment(studentId: number, courseId: number): Promise<UserCourse>;
     createEnrollment(userCourse: UserCourse): Promise<UserCourse>;
+    getByProfessorId(id:number):Promise<Course[]>
 }

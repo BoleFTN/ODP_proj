@@ -3,6 +3,6 @@ import { CourseDTO } from "../../DTOs/course/CourseDTO";
 
 export interface ICourseServices{
     AddCourse(courseName: string, professorId: number):Promise<CourseDTO>
-        getAll(): Promise<CourseDTO[]>; // Dodaj ovu liniju
-
+    getAll(): Promise<CourseDTO[]>; // Dodaj ovu liniju
+    getForProfessor(id:number):Promise<CourseDTO[]>
 }
