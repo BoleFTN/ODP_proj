@@ -35,14 +35,19 @@ export class CourseServices implements ICourseServices{
         }
     }
 
-    async getForProfessor(id:number):Promise<CourseDTO[]>{
+    async findCoursesByProfessor(id:number):Promise<CourseDTO[]>{
+            console.log("Servis: Pokrećem pretragu za profesora sa ID-jem:", id);
+
         try{
         const courses : Course[] = await this.CourseRepository.getByProfessorId(id)
+        console.log("Servis: Dobijeni podaci iz repozitorijuma:", courses);
+
 
         return courses.map(course => new CourseDTO(course.courseId, course.courseName, course.professorId));
         }
-        catch{
-            return []
+        catch (err) {
+            console.error("Greška u CourseServices.findCoursesByProfessor:", err);
+            return [];
         }
     }
 }

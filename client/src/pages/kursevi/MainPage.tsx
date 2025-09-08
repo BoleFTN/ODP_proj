@@ -4,6 +4,7 @@ import { DodajKurs } from "../../components/course/DodajKurs";
 import { PregledKurseva } from "../../components/course/PregledKurseva";
 import { useAuth } from "../../hooks/auth/useAuthHook";
 import { EnrolledCoursesList } from "../../components/course/EnrolledCoursesList"; // Dodaj import za novu komponentu
+import { ProfesorKursevi } from "../../components/course/ProfesorKursevi";
 
 export function MainPage() {
   const { user, token } = useAuth();
@@ -13,14 +14,17 @@ export function MainPage() {
       <h1 className="text-3xl font-bold text-white mb-6">
         Dobrodošao, {user?.username}!
       </h1>
-      {user?.userType === "student" ? (
-        <>
-            <EnrolledCoursesList token={token} user={user} />
-            <PregledKurseva />
-        </>
-      ) : (
-        <DodajKurs token={token} user={user} />
-      )}
+     {user?.userType === "student" ? (
+  <>
+    <EnrolledCoursesList token={token} user={user} />
+    <PregledKurseva />
+  </>
+) : (
+  <>
+    <DodajKurs token={token} user={user} />
+    <ProfesorKursevi token={token} user={user} />
+  </>
+)}
     </main>
   );
 }

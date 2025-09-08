@@ -31,9 +31,9 @@ export class CourseController {
         // GET ruta za dohvatanje kurseva na koje je korisnik upisan
         this.router.get("/user/:userId/courses", this.findCoursesForUser.bind(this));
 
-        this.router.post("/getForProfessor",this.getForProfessor.bind(this))
+        this.router.get("/:userId/findCoursesByProfessor",this.findCoursesByProfessor.bind(this));
     }
-
+  
     private async AddCourse(req: Request, res: Response): Promise<void> {
         try {
             const { courseName, professorId } = req.body;
@@ -86,6 +86,7 @@ export class CourseController {
     private async findCoursesForUser(req: Request, res: Response): Promise<void> {
         try {
             const userId = parseInt(req.params.userId, 10);
+            console.log("Kontroler: Primljen zahtev za profesora sa ID-jem:");
             const kursevi = await this.UserCourseServices.FindCourses(userId);
             res.status(200).json(kursevi);
         } catch (error) {
@@ -95,10 +96,13 @@ export class CourseController {
     }
 
 
-    private async getForProfessor(req: Request, res: Response): Promise<void>{
+    private async findCoursesByProfessor(req: Request, res: Response): Promise<void>{
+
         try{
-            const { professorId } = req.body;
-            const kursevi = await this.CourseServices.getForProfessor(professorId)
+            console.log("fsjf");
+            const  professorId  = parseInt(req.params.userId, 10);
+            console.log(professorId);
+            const kursevi = await this.CourseServices.findCoursesByProfessor(professorId)
 
             res.status(200).json(kursevi);
         }

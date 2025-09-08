@@ -9,6 +9,9 @@ import { ICoursesAPIService } from "./ICoursesAPIService";
 
 const COURSES_API_URL = import.meta.env.VITE_API_URL + "courses";
 const USER_COURSES_API_URL = import.meta.env.VITE_API_URL;
+const PROFESSOR_COURSES_API_URL = import.meta.env.VITE_API_URL;
+
+
 
 export const coursesApi: ICoursesAPIService = {
 
@@ -32,7 +35,6 @@ export const coursesApi: ICoursesAPIService = {
       return res.data;
     }catch(error){
       console.log(error)
-      //console.log("upao je u catch")
     }
   
 },
@@ -48,6 +50,22 @@ export const coursesApi: ICoursesAPIService = {
       console.error("Greška pri dohvatanju kurseva za korisnika:", error);
       return [];
     }
-  }
+  },
+findCoursesByProfessor: async (token: string, professorId: number): Promise<CourseDTO[]> => {
+    try {
+      console.log("kkk");
+      console.log(PROFESSOR_COURSES_API_URL);
+      console.log("ddd");
+      const res = await axios.get<CourseDTO[]>(`${PROFESSOR_COURSES_API_URL}courses/${professorId}/findCoursesByProfessor`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return res.data;
+    } catch (error) {
+      console.error("Greška pri dohvatanju kurseva za profesora:", error);
+      return [];
+    }
+  },
 
 };

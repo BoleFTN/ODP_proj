@@ -5,5 +5,7 @@ export interface ICoursesAPIService {
   createCourse(token: string, newCourseData: { courseName: string; professorId: number }): Promise<any | null>;
   selectCourse(token: string, studentId: number, courseId: number): Promise<any | null>;
   findCoursesForUser(token: string, userId: number): Promise<CourseDTO[]>;
+  findCoursesByProfessor(token: string, professorId: number): Promise<CourseDTO[]>;
+
   
 }

@@ -20,14 +20,14 @@ export class MaterialsController{
 
     private async createMaterial(req:Request,res:Response):Promise<void>{
         try{
-        const{title,filepath,userId,courseId,description} = req.body
-        const validation = MaterialValidation(title,userId,courseId,description)
+        const{materialName,filepath,userId,courseId,description} = req.body
+        const validation = MaterialValidation(materialName,userId,courseId,description)
 
         if(validation.sucessful === false){
             res.status(400).json({ sucessful:false,message:validation.message})
         }
 
-        const result = await this.MaterialServices.createMaterial(title,filepath,userId,courseId,description)
+        const result = await this.MaterialServices.createMaterial(materialName,filepath,userId,courseId,description)
 
         if(result.materialId !== 0){
              res.status(200).json(result)

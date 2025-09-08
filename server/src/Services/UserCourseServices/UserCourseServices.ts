@@ -49,7 +49,7 @@ export class UserCourseServices implements IUserCourseServices{
             return []
         }
         const links : UserCourse[] = await this.UserCourseRepository.getByUserId(userId)
-        console.log(links)
+       // console.log(links)
         if (links.length === 0) {
         return [];
         }

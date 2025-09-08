@@ -11,24 +11,24 @@ export class MaterialServices implements IMaterialServices{
         this.UserAccountRepository = UserAccountRepository
     }
 
-    async createMaterial(title: string, filepath: string, userId: number, courseId: number, description: string): Promise<MaterialDTO> {
+    async createMaterial(materialName: string, filepath: string, userId: number, courseId: number, description: string): Promise<MaterialDTO> {
         
         const userTester = await this.UserAccountRepository.getById(userId)
         if(userTester.userType !== "professor"){
             return new MaterialDTO()
         }
-        const newMaterial = await this.MaterialsRepository.createMaterial(new Material(0,title,filepath,courseId,userId,description))
+        const newMaterial = await this.MaterialsRepository.createMaterial(new Material(0,materialName,filepath,courseId,userId,description))
 
         return new MaterialDTO(newMaterial.materialId,newMaterial.materialName,newMaterial.filepath,newMaterial.courseId,newMaterial.userId,newMaterial.description)
     }
-    async editMaterial(title: string, filepath: string, userId: number, courseId: number, description: string,id:number): Promise<MaterialDTO> {
+    async editMaterial(materialName: string, filepath: string, userId: number, courseId: number, description: string,id:number): Promise<MaterialDTO> {
         const newMaterial = await this.MaterialsRepository.getById(id)
 
         if(newMaterial.courseId === 0){
             return new MaterialDTO()
         }
 
-        const editedMaterial = await this.MaterialsRepository.update(new Material(0,title,filepath,courseId,userId,description))
+        const editedMaterial = await this.MaterialsRepository.update(new Material(0,materialName,filepath,courseId,userId,description))
 
         return new MaterialDTO(editedMaterial.materialId,editedMaterial.materialName,editedMaterial.filepath,editedMaterial.courseId,editedMaterial.userId,editedMaterial.description)
     }

@@ -1,10 +1,9 @@
-export class MaterialDTO{
-    public constructor(
-       public materialId : number = 0,
-       public materialName : string = "",
-       public filepath : string = "",
-       public courseId : number = 0,
-       public userId : number = 0,
-       public description : string = ""
-    ){}
+export interface MaterialDTO{
+       materialId : number;
+       materialName : string;
+       filepath : string;
+       courseId : number;
+       userId : number;
+       description : string;
 }
+

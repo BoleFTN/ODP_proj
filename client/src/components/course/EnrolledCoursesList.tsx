@@ -23,7 +23,7 @@ export const EnrolledCoursesList: React.FC<EnrolledCoursesListProps> = ({ token,
                 return;
             }
             try {
-                console.log(user.id)
+                //console.log(user.id)
                 const courses = await coursesApi.findCoursesForUser(token, user.id);
                 setEnrolledCourses(courses);
             } catch (err) {

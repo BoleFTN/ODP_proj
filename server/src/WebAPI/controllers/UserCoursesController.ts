@@ -19,6 +19,8 @@ export class UserCourseController {
 
         // svi kursevi na koje je korisnik upisan
         this.router.get("/:userId/courses", this.FindCourses.bind(this));
+
+
     }
 
     private async EnrollUser(req: Request, res: Response): Promise<void> {
@@ -57,6 +59,8 @@ export class UserCourseController {
             res.status(500).json({ sucessful: false, message: "Server error" });
         }
     }
+
+    
 
     public getRouter() {
         return this.router;
