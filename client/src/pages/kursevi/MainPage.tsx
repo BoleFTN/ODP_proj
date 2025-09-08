@@ -7,14 +7,14 @@ import { EnrolledCoursesList } from "../../components/course/EnrolledCoursesList
 import { ProfesorKursevi } from "../../components/course/ProfesorKursevi";
 
 export function MainPage() {
-  const { user, token } = useAuth();
-  
-  return (
-    <main className="min-h-screen bg-gradient-to-tr from-slate-600/75 to-orange-800/70 flex flex-col items-center justify-start p-6">
-      <h1 className="text-3xl font-bold text-white mb-6">
-        Dobrodošao, {user?.username}!
-      </h1>
-     {user?.userType === "student" ? (
+ const { user, token } = useAuth();
+
+  return (
+  <main className="min-h-screen bg-gradient-to-tr from-slate-600/75 to-orange-800/70 flex flex-col items-center justify-start p-6">
+  <h1 className="text-3xl font-bold text-white mb-6">
+     Dobrodošao, {user?.username}!
+     </h1>
+    {user?.userType === "student" ? (
   <>
     <EnrolledCoursesList token={token} user={user} />
     <PregledKurseva />
@@ -25,8 +25,8 @@ export function MainPage() {
     <ProfesorKursevi token={token} user={user} />
   </>
 )}
-    </main>
-  );
+   </main>
+   );
 }
 
 export default MainPage;
